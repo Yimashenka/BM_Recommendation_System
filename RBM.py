@@ -65,7 +65,7 @@ class RBM():
     # value of the visible nodes vk
     def train(self, v0, vk, ph0, phk):
         # First update : the weights
-        self.W += torch.mm(v0.t(), ph0) - torch.mm(vk.t(), phk)
+        self.W += (torch.mm(v0.t(),ph0) - torch.mm(vk.t(),phk)).t()
 
         # Second update : b
         self.b += torch.sum((v0 - vk), 0)   #just to keep the format of b
