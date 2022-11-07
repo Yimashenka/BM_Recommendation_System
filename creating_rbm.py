@@ -15,13 +15,13 @@ nv = len(training_set[0])
 nh = 100
 
 # We need now the batch size. Another tunable parameter.
-batch_size = 100
+batch_size = 50
 
 # Creating the RBM
 rbm = RBM.RBM(nv, nh)
 
 # Training the RBM
-nb_epoch = 10
+nb_epoch = 100
 for epoch in range(1, nb_epoch + 1):
     # We need a loss function, compute the error between the prediction and
     # the real ratings. RMSE (most common one), simple distance, absolute dis-
