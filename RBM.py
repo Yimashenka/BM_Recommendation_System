@@ -55,3 +55,20 @@ class RBM():
         activation = wy + self.b.expand_as(wy)
         p_v_given_h = torch.sigmoid(activation)
         return p_v_given_h, torch.bernoulli(p_v_given_h)
+
+    # Constrative Divergence, see paper in doc, k-step constrative divergence)
+    # v0 : input vectors containing the ratings of all the movies by one user
+    # vk : visible nodes obtained after k samplings
+    # ph0 : vector of probabilities that at the first iteration, the hidden
+    # nodes equal one given the value of v0
+    # phk : the probabilities of the hidden nodes after k samplings given the
+    # value of the visible nodes vk
+    def train(self, v0, vk, ph0, phk):
+        # First update : the weights
+        self.W += torch.mm(v0.t(), ph0) - torch.mm(vk.t(), phk)
+
+        # Second update : b
+        self.b += torch.sum((v0 - vk), 0)   #just to keep the format of b
+
+        # Third update : a
+        self.a += torch.sum((ph0 - phk), 0) #just to keep the format of a
